@@ -1,10 +1,17 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin-left: 15%;
+    margin-left: 10%;
+    margin-right: 10%;
+    background-color: rgb(117, 215, 215);
 }
 
 h1 {
     color: cornflowerblue;
+}
+
+p {
+    font-size: medium;
+    font-weight: 600;
 }
 
 input {
