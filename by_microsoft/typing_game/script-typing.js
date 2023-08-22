@@ -34,6 +34,8 @@ document.getElementById('start').addEventListener('click', () => {
     // reset the word index for tracking
     wordIndex = 0;
 
+    typedValueElement.disabled = false;
+
     // UI updates
     // Create an array of span elements so we cat set a class
     const spanWords = words.map(function (word) { return `<span> ${word} </span>` });
@@ -42,7 +44,7 @@ document.getElementById('start').addEventListener('click', () => {
     // Highlight the first word 
     quoteElement.childNodes[0].className = 'highlight';
     // Clear any prior messages
-    messageElement.InnerText = '';
+    messageElement.InnerText = 'Keep going!';
 
     // Setup the textbox
     // Clear the textbox
@@ -68,6 +70,7 @@ typedValueElement.addEventListener('input', () => {
     const elapsedTime = new Date().getTime() - startTime;
     const message = `CONGRATULATIONS! You finished in ${elapsedTime / 1000} seconds.`;
     messageElement.innerText = message;
+    typedValueElement.disabled = true;
   } else if (typedValue.endsWith(' ') && typedValue.trim() === currentWord) {
     // end of word
     // clear the typedValueElement for the new word
