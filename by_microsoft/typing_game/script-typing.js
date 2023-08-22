@@ -35,6 +35,7 @@ document.getElementById('start').addEventListener('click', () => {
     wordIndex = 0;
 
     typedValueElement.disabled = false;
+    typedValueElement.addEventListener('input', func);
 
     // UI updates
     // Create an array of span elements so we cat set a class
@@ -58,7 +59,7 @@ document.getElementById('start').addEventListener('click', () => {
 });
 
 // at the end of script.js
-typedValueElement.addEventListener('input', () => {
+typedValueElement.addEventListener('input', func = () => {
   // Get the current word
   const currentWord = words[wordIndex];
   // get the current value
@@ -71,6 +72,8 @@ typedValueElement.addEventListener('input', () => {
     const message = `CONGRATULATIONS! You finished in ${elapsedTime / 1000} seconds.`;
     messageElement.innerText = message;
     typedValueElement.disabled = true;
+    typedValueElement.removeEventListener('input', func);
+
   } else if (typedValue.endsWith(' ') && typedValue.trim() === currentWord) {
     // end of word
     // clear the typedValueElement for the new word
