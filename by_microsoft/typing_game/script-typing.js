@@ -8,6 +8,7 @@ const quotes = ['When you have eliminated the impossible, whatever remains, howe
     'Nothing clears up a case so much as stating it to another person.',
     'Education never ends, Watson. It is a series of lessons, with the greatest for the last.',];
 
+
 let words = [];
 let wordIndex = 0;
 
@@ -21,8 +22,10 @@ const quoteElement = document.getElementById('quote');
 const messageElement = document.getElementById('message');
 const typedValueElement = document.getElementById('typed-value');
 const modal = document.getElementById('myModal');
-  const btn = document.getElementById('btnModal');
-  const span = document.getElementsByClassName('close')[0];
+const btn = document.getElementById('btnModal');
+const span = document.getElementsByClassName('close')[0];
+localStorage.setItem('highScore', '0');
+let highScore = localStorage.getItem('highScore');
 
 // Start logic
 
@@ -69,8 +72,19 @@ typedValueElement.addEventListener('input', func = () => {
   if (typedValue === currentWord && wordIndex === words.length - 1) {
     // end of sentence
     // Display success
-    const elapsedTime = new Date().getTime() - startTime;
-    const message = `CONGRATULATIONS! You finished in ${elapsedTime / 1000} seconds.`;
+    var elapsedTime = new Date().getTime() - startTime;
+    
+    localStorage.setItem('score', elapsedTime);
+    let score = localStorage.getItem('score');
+ 
+    if (score < highScore || highScore == 0) {
+      localStorage.setItem('highScore', elapsedTime);
+      highScore = localStorage.getItem('highScore');
+    }
+
+
+    const message = `CONGRATULATIONS! You finished in ${elapsedTime / 1000} 
+    seconds. Score is: ${score}. Record is : ${highScore}`;
     messageElement.innerText = message;
     typedValueElement.disabled = true;
     modal.style.display = 'block';
