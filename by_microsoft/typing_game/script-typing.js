@@ -8,8 +8,6 @@ const quotes = ['When you have eliminated the impossible, whatever remains, howe
     'Nothing clears up a case so much as stating it to another person.',
     'Education never ends, Watson. It is a series of lessons, with the greatest for the last.',];
 
-// Store the list of words and the index of the word the player is currently typing
-
 let words = [];
 let wordIndex = 0;
 
@@ -22,6 +20,9 @@ let startTime = Date.now();
 const quoteElement = document.getElementById('quote');
 const messageElement = document.getElementById('message');
 const typedValueElement = document.getElementById('typed-value');
+const modal = document.getElementById('myModal');
+  const btn = document.getElementById('btnModal');
+  const span = document.getElementsByClassName('close')[0];
 
 // Start logic
 
@@ -29,13 +30,13 @@ document.getElementById('start').addEventListener('click', () => {
     // get a quote
     const quoteIndex = Math.floor(Math.random() * quotes.length);
     const quote = quotes[quoteIndex];
+
     // Put the quote into an array of words
     words = quote.split(' ');
     // reset the word index for tracking
     wordIndex = 0;
 
     typedValueElement.disabled = false;
-    typedValueElement.addEventListener('input', func);
 
     // UI updates
     // Create an array of span elements so we cat set a class
@@ -45,7 +46,7 @@ document.getElementById('start').addEventListener('click', () => {
     // Highlight the first word 
     quoteElement.childNodes[0].className = 'highlight';
     // Clear any prior messages
-    messageElement.InnerText = 'Keep going!';
+    messageElement.InnerText = '';
 
     // Setup the textbox
     // Clear the textbox
@@ -72,7 +73,15 @@ typedValueElement.addEventListener('input', func = () => {
     const message = `CONGRATULATIONS! You finished in ${elapsedTime / 1000} seconds.`;
     messageElement.innerText = message;
     typedValueElement.disabled = true;
-    typedValueElement.removeEventListener('input', func);
+    modal.style.display = 'block';
+    span.onclick = function()  {
+      modal.style.display = 'none';
+    }
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = 'none'
+      }
+    }
 
   } else if (typedValue.endsWith(' ') && typedValue.trim() === currentWord) {
     // end of word
@@ -95,22 +104,3 @@ typedValueElement.addEventListener('input', func = () => {
     typedValueElement.className = 'error';
   }
 });
-
-// Modal
-
-var modal = document.getElementById("myModal");
-var btn = document.getElementById("btnModal");
-var span = document.getElementsByClassName("close")[0];
-
-btn.onclick = function() {
-  modal.style.display = "block";
-}
-span.onclick = function() {
-  modal.style.display = "none";
-}
-
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
