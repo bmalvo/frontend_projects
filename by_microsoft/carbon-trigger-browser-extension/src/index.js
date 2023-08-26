@@ -42,7 +42,13 @@ function init() {
 		results.style.display = 'none';
 		form.style.display = 'none';
 		clearBtn.style.display = 'block';
-	}
+    }
+    chrome.runtime.sendMessage({
+	action: 'updateIcon',
+		value: {
+			color: 'green',
+		},
+});
 };
 
 function reset(e) {
@@ -105,6 +111,25 @@ async function displayCarbonUsage(apiKey, region) {
 		errors.textContent = 'Sorry, we have no data for the region you have requested.';
 	}
 }
+
+function calculateColor(value) {
+	let co2Scale = [0, 150, 600, 750, 800];
+	let colors = ['#2AA364', '#F5EB4D', '#9E4229', '#381D02', '#381D02'];
+
+	let closestNum = co2Scale.sort((a, b) => {
+		return Math.abs(a - value) - Math.abs(b - value);
+	})[0];
+	console.log(value + ' is closest to ' + closestNum);
+	let num = (element) => element > closestNum;
+	let scaleIndex = co2Scale.findIndex(num);
+
+	let closestColor = colors[scaleIndex];
+	console.log(scaleIndex, closestColor);
+
+	chrome.runtime.sendMessage({ action: 'updateIcon', value: { color: closestColor } });
+}
+
+calculateColor(CO2);
 
 //3 initial checks
 
